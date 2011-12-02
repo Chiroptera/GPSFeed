@@ -1,9 +1,7 @@
 package afa.pitvant;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -18,11 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 
 public class GPSLocFeed extends Activity implements OnClickListener,
 		OnCheckedChangeListener, LocationListener {
@@ -86,39 +82,6 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 		SERVERPORT = Integer.parseInt(prefs.getString("serverPort", "0"));
 		SERVERIP = prefs.getString("serverIP", "0.0.0.0");
 	}
-	
-	//dialog funcion
-/*
-	private boolean dialogParse (){ //fun
-		final AlertDialog.Builder alert = new  AlertDialog.Builder(this);
-		final EditText input = new EditText(this);
-		alert.setTitle("Inset IP:Port");
-		alert.setView(input);
-		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				SERVERIP = input.getText().toString().trim();
-				Toast.makeText(getApplicationContext(), SERVERIP,
-						Toast.LENGTH_SHORT).show();
-			}
-		});
-
-		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						dialog.cancel();
-					}
-				});
-		alert.show();
-		
-		int i=SERVERIP.indexOf(":");
-		if (i==-1) return false;
-		String port = SERVERIP.substring(i, SERVERIP.length()-1);
-		SERVERIP = SERVERIP.substring(0, i);
-		Log.d("ServerIp", SERVERIP);
-		Log.d("ServerPort", port);
-		SERVERPORT = Integer.parseInt(port);
-		return true;
-	}
-*/
 	
 	@Override
 	public boolean onCreateOptionsMenu(android.view.Menu menu) {
