@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<EditTextPreference
+		android:summary="How far, in meters, for the device to get location updates."
+		android:key="distUpdt" android:title="Minimum distance update"
+		android:defaultValue="0"></EditTextPreference>
+	<EditTextPreference
+		android:summary="How long, in miliseconds, for the device to get location updates."
+		android:key="timeUpdt" android:title="Minimum time update"
+		android:defaultValue="0"></EditTextPreference>
+			<EditTextPreference
+		android:summary="The port of the server."
+		android:key="serverPort" android:title="Server port"
+		android:defaultValue="0"></EditTextPreference>
+			<EditTextPreference
+		android:summary="The IP address of the server."
+		android:key="serverIP" android:title="Server IP"
+		android:defaultValue="0.0.0.0"></EditTextPreference>
+
+</PreferenceScreen>

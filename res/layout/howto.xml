@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:padding="15dp" android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<TextView android:text="This application has two modes of operation:"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<TextView android:paddingTop="5dp" android:paddingLeft="30dp"
+		android:text="Live Feed: the device receives regular location updates and sends the location coordinates automaticly."
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<TextView android:paddingTop="5dp" android:paddingLeft="30dp"
+		android:text="Point to Point: the device receives regular location updates but only sends the location coordinates when a button is pressed."
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<TextView android:paddingTop="5dp"
+		android:text="You can change the frequency of the updates, based on minimum distance covered and/or time passed, by going to the preferences. The frequency of the updates will influence power usage (more frequent = more power used)."
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+
+</LinearLayout>

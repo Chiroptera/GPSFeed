@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:padding="15dp">
+
+	<ImageView android:src="@drawable/pitvant" android:id="@+id/ivPitvant"
+		android:layout_height="292dp" android:layout_weight="0.41"
+		android:layout_width="243dp" android:layout_centerVertical="true"
+		android:layout_alignParentLeft="true"></ImageView>
+
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:id="@+id/tvModo"
+		android:text="Modo de funcionamento:" android:layout_alignTop="@+id/ivPitvant"
+		android:layout_toRightOf="@+id/ivPitvant" />
+
+	<RadioGroup android:id="@+id/rgChoices"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_toRightOf="@+id/ivPitvant" android:layout_below="@+id/tvModo">
+		<RadioButton android:layout_height="wrap_content"
+			android:id="@+id/rLiveFeed" android:text="Live Feed"
+			android:layout_width="wrap_content"></RadioButton>
+		<RadioButton android:layout_height="wrap_content"
+			android:id="@+id/rPoint2P" android:text="Point to Point"
+			android:layout_width="wrap_content"></RadioButton>
+	</RadioGroup>
+
+	<Button android:text="ReqCoords" android:id="@+id/bRequestCoords"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:layout_alignParentRight="true" android:layout_alignBottom="@+id/rgChoices"></Button>
+
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Longitude:"
+		android:id="@+id/tvLong" android:layout_toRightOf="@+id/ivPitvant" android:layout_above="@+id/tvLat" />
+
+	<TextView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="Latitude:"
+		android:id="@+id/tvLat" android:layout_toRightOf="@+id/ivPitvant" android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
