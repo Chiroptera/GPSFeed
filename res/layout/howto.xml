@@ -11,7 +11,7 @@
 		android:text="Point to Point: the device receives regular location updates but only sends the location coordinates when a button is pressed."
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 	<TextView android:paddingTop="5dp"
-		android:text="You can change the frequency of the updates, based on minimum distance covered and/or time passed, by going to the preferences. The frequency of the updates will influence power usage (more frequent = more power used)."
+		android:text="You can change the frequency of the updates, based on minimum distance covered and/or time passed, by going to the preferences. The frequency of the updates will influence power usage (more frequent = more power used). The firsttime you start the application you should edit the IP address and Port and restart the application."
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 
 </LinearLayout>

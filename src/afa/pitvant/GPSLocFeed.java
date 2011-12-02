@@ -39,6 +39,7 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 	float lati, longi;
 	String SERVERIP;
 	int SERVERPORT;
+	Bundle messageData;
 	
 	//our preferences
 	SharedPreferences prefs;
@@ -56,9 +57,6 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 		//no title bar
 		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
-		//while (dialogParse()==false){}
-		// requestCoords.setVisibility(1); //makes the button invisible at startup
-		
 		//initialization of UI and GPS elements and our preferences
 		initialize();
 		
@@ -74,6 +72,7 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 		lon = (TextView) findViewById(R.id.tvLong);
 		requestCoords = (Button) findViewById(R.id.bRequestCoords);
 		requestCoords.setOnClickListener(this);
+		
 		choices = (RadioGroup) findViewById(R.id.rgChoices);
 		choices.setOnCheckedChangeListener(this);
 		ourManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -117,11 +116,12 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 		if (liveFeed == false){			
 			// prepare a message with GPS location data
             Message messageToThread = new Message();
-            Bundle messageData = new Bundle();
+            messageData = new Bundle();
             messageToThread.what = 0;
             messageData.putFloat("latitude", lati);
-            messageData.putFloat("longitude", longi);
+            messageData.putFloat("longitude", longi);            
             messageToThread.setData(messageData);
+
 
             // sending message to myThread
             myThread.getHandler().sendMessage(messageToThread);
@@ -134,11 +134,11 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		switch (arg1) {
 		case R.id.rLiveFeed:
-			// requestCoords.setVisibility(1); //makes the requestCoords button invisible during live feed
+			requestCoords.setVisibility(View.INVISIBLE); //makes the requestCoords button invisible during live feed
 			liveFeed = true;
 			break;
 		case R.id.rPoint2P:
-			// requestCoords.setVisibility(0); //make the requestCoords button visible during P2P
+			requestCoords.setVisibility(View.VISIBLE); //make the requestCoords button visible during P2P
 			liveFeed = false;
 			break;
 		}
@@ -160,14 +160,12 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 			//SERVERPORT = Integer.parseInt(prefs.getString("serverPort", "0"));
 			//SERVERIP = prefs.getString("serverIp", "0.0.0.0");
 
-			// prepare a message with GPS location data
+			// prepares a message with GPS location data
             Message messageToThread = new Message();
-            Bundle messageData = new Bundle();
+            messageData = new Bundle();
             messageToThread.what = 0;
             messageData.putFloat("latitude", lati);
             messageData.putFloat("longitude", longi);
-            messageData.putInt("serverPort", SERVERPORT);
-            messageData.putString("serverIp", SERVERIP);
             messageToThread.setData(messageData);
  
             // sending message to myThread

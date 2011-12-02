@@ -25,7 +25,8 @@
 
 	<Button android:text="ReqCoords" android:id="@+id/bRequestCoords"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:layout_alignParentRight="true" android:layout_alignBottom="@+id/rgChoices"></Button>
+		android:layout_alignParentRight="true" android:layout_alignBottom="@+id/rgChoices"
+		android:visibility="invisible" ></Button>
 
 	<TextView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:text="Longitude:"
