@@ -15,21 +15,30 @@ public final class R {
         public static final int pitvant=0x7f020001;
     }
     public static final class id {
-        public static final int bRequestCoords=0x7f070005;
-        public static final int exit=0x7f07000a;
-        public static final int howTo=0x7f070008;
+        public static final int bDefault=0x7f07000f;
+        public static final int bRequestCoords=0x7f070007;
+        public static final int bStart=0x7f07000e;
+        public static final int etIP=0x7f07000b;
+        public static final int etPort=0x7f07000c;
+        public static final int exit=0x7f070012;
+        public static final int howTo=0x7f070010;
+        public static final int imageView1=0x7f07000a;
         public static final int ivPitvant=0x7f070000;
-        public static final int preferences=0x7f070009;
+        public static final int linearLayout1=0x7f07000d;
+        public static final int preferences=0x7f070011;
         public static final int rLiveFeed=0x7f070003;
         public static final int rPoint2P=0x7f070004;
         public static final int rgChoices=0x7f070002;
-        public static final int tvLat=0x7f070007;
-        public static final int tvLong=0x7f070006;
+        public static final int tvIP=0x7f070005;
+        public static final int tvLat=0x7f070009;
+        public static final int tvLong=0x7f070008;
         public static final int tvModo=0x7f070001;
+        public static final int tvPORT=0x7f070006;
     }
     public static final class layout {
         public static final int howto=0x7f030000;
         public static final int main=0x7f030001;
+        public static final int splash=0x7f030002;
     }
     public static final class menu {
         public static final int menu=0x7f060000;

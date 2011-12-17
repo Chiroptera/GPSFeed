@@ -4,90 +4,95 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import android.os.Handler;
-import android.os.Message;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 public class UDPClient extends Thread {
-		
-	private float longitude, latitude;
+
 	private InetAddress serverAddr;
 	private DatagramSocket socket;
 	private DatagramPacket packet;
 	private String coords;
-	private String SERVERIP;
-	private int SERVERPORT;
+	private String TARGETIP;
+	private int TARGETPORT;
+	SharedPreferences prefs;
+	float longitude=0, latitude=0;
 	
-	/* Constructor */
-	public UDPClient (String serverIP, int serverPORT){
+	/**
+	 * Constructor for the UDPClient class. Initializes it's target's IP, port and InetAddress.
+	 * @param targetIP a string containing the IP for future use.
+	 * @param targetPORT an integer containing the port for future use.*/
+	public UDPClient (String targetIP, int targetPORT){
 		Log.d("Contructor", "Created");
-		this.SERVERIP = serverIP;
-		this.SERVERPORT = serverPORT;
+		/* initialize IP and Port for 1st time use */
+		this.TARGETIP = targetIP;
+		this.TARGETPORT = targetPORT;
+		Log.d("Contructor:PORT", String.valueOf(TARGETPORT));
+		Log.d("Contructor:IP", TARGETIP);
+		
+		/* initializes InetAddress and socket */
 		try {
-			serverAddr = InetAddress.getByName(SERVERIP);
-			socket = new DatagramSocket();
-			Log.d("Contructor IP", String.valueOf(SERVERPORT));
-			Log.d("Contructor Port", SERVERIP);
+			serverAddr = InetAddress.getByName(TARGETIP);
+			socket = new DatagramSocket();			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	/* Definition and initialization of the handler associated with this thread */
-	private Handler udpHandler = new Handler () {
+	
+	/**
+	 * Changes the IP and port for future use and updates de InetAddress for the thread.
+	 * @param targetIP a string containing the IP for future use.
+	 * @param targetPORT an integer containing the port for future use.*/
+	public void setAddr (String targetIP, int targetPORT){
+		this.TARGETIP = targetIP; //class IP and port are now set to values received
+		this.TARGETPORT = targetPORT;
 		
-		/* Function to handle received messages from main thread */
-		public void handleMessage (Message msg) {
-			if (msg.what == 0){
-				/* loading coordinates to local variables */
-				Log.d("Handler", "Data received.");
-				longitude=msg.getData().getFloat("longitude", 0);
-				latitude=msg.getData().getFloat("latitude", 0);
-				Log.d("Handler Coords", String.valueOf(longitude)+":"+String.valueOf(latitude));
-				/* loading server ip and port to local variables */
-				//SERVERIP = msg.getData().getString("serverIp");
-				//SERVERPORT = msg.getData().getInt("serverPort");
-				try {
-					/* preparing the InetAddress and DatagramSocket to be used in sending the DatagramPacket */
-					serverAddr = InetAddress.getByName(SERVERIP);
-					socket = new DatagramSocket();
-					Log.d("Handler IP", SERVERIP);
-					Log.d("Handler Port", String.valueOf(SERVERPORT));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				run();
-			}
-		}
-	};
-	/* Function that returns the Handler associated with this thread */
-	public Handler getHandler () {
-		Log.d("getHandler", "Done");
-		return udpHandler;
+		try {
+			serverAddr = InetAddress.getByName(TARGETIP); //updates InetAddress
+			Log.d("setAddr", "New IP and port set.");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+	/**
+	 * Changes the current coordinates that the thread should use.
+	 * @param longitude a float containing the current location's longitude.
+	 * @param latitude a float containing the current location's lotitude.*/
+	public void setCoords (float longitude, float latitude){
+		this.longitude=longitude;
+		this.latitude=latitude;
+		run();
 	}
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		super.run();
-		/* Conversion of coordinates to a string in desired format */
-		coords = String.valueOf(longitude)+":"+String.valueOf(latitude);
-		Log.d("Run Coords:", coords);
-		byte[] data = coords.getBytes();
-		/* preparation o DatagramPacket with formated String, server address and server port */
-		packet = new DatagramPacket(data, data.length, serverAddr, SERVERPORT);
-		Log.d("Run DataLen", String.valueOf(data.length));
-		Log.d("Run DataIP", serverAddr.getHostAddress());
-		Log.d("Run DataPort", String.valueOf(SERVERPORT));
-		
+
+		/* Sends a UDP message to target address with the formart longitude:latitude */
 		try {
-			Log.d("UDP", "Sending");
+			coords = String.valueOf(longitude)+":"+String.valueOf(latitude);
+			Log.d("SendUDP Coords:", coords);
+			byte[] data = coords.getBytes();
+			
+			/* preparation o DatagramPacket with formated String, server address and server port */
+			packet = new DatagramPacket(data, data.length, serverAddr, TARGETPORT);
+			
+			Log.d("SendUDP DataLen", String.valueOf(data.length));
+			Log.d("SendUDP DataIP", serverAddr.getHostAddress());
+			Log.d("SendUDP DataPort", String.valueOf(TARGETPORT));
+			Log.d("SendUDP", "Sending");
+			
 			socket.send(packet);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 }

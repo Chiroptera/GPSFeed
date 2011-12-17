@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="match_parent"
+	android:layout_height="match_parent">
+    <ImageView android:src="@drawable/pitvant" android:id="@+id/imageView1" android:layout_width="112dp" android:layout_height="139dp" android:layout_gravity="center"></ImageView>
+	<TextView
+		android:text="Please enter the IP address and port to use of the computer you wish to send the GPS coordinates to."
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	<TextView android:text="IP address:" android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></TextView>
+	<EditText android:layout_width="match_parent" android:id="@+id/etIP"
+		android:layout_height="wrap_content" android:hint="123.456.789.101">
+		<requestFocus></requestFocus>
+	</EditText>
+	<TextView android:text="Port to use:" android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></TextView>
+	<EditText android:layout_width="match_parent" android:id="@+id/etPort"
+		android:layout_height="wrap_content" android:hint="5005"></EditText>
+
+	<LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
+		<Button android:text="Start" android:id="@+id/bStart"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	<Button android:text="Use default" android:id="@+id/bDefault"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+	</LinearLayout>
+
+</LinearLayout>

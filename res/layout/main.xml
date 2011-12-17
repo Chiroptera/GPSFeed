@@ -10,7 +10,7 @@
 
 	<TextView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:id="@+id/tvModo"
-		android:text="Modo de funcionamento:" android:layout_below="@id/ivPitvant" />
+		android:text="Operating mode:" android:layout_below="@id/ivPitvant" />
 
 	<RadioGroup android:id="@+id/rgChoices"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -23,10 +23,21 @@
 			android:layout_width="wrap_content"></RadioButton>
 	</RadioGroup>
 
-	<Button android:text="ReqCoords" android:id="@+id/bRequestCoords"
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="IP:"
+		android:layout_alignParentRight="true" android:id="@+id/tvIP"
+		android:layout_alignTop="@+id/rgChoices" />
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:text="Port:"
+		android:layout_below="@+id/tvIP"
+		android:layout_alignLeft="@+id/tvIP"
+		android:id="@+id/tvPORT" />
+
+	<Button android:text="Send coordinates" android:id="@+id/bRequestCoords"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:layout_alignParentRight="true" android:layout_alignBottom="@+id/rgChoices"
-		android:visibility="invisible" ></Button>
+		android:visibility="invisible"></Button>
 
 	<TextView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:text="Longitude:"

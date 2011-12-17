@@ -8,7 +8,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -17,13 +16,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class GPSLocFeed extends Activity implements OnClickListener,
 		OnCheckedChangeListener, LocationListener {
 	//definition of UI elements
-	TextView lat, lon;
+	TextView lat, lon, ip, port;
 	Button requestCoords;
 	RadioGroup choices;
 	
@@ -37,9 +36,8 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 	
 	//information to be sent to UDP thread
 	float lati, longi;
-	String SERVERIP;
-	int SERVERPORT;
-	Bundle messageData;
+	String TARGETIP;
+	int TARGETPORT;
 	
 	//our preferences
 	SharedPreferences prefs;
@@ -61,15 +59,21 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 		initialize();
 		
 		//initializing and starting the UDP thread
-		myThread = new UDPClient(SERVERIP, SERVERPORT);
+		myThread = new UDPClient(TARGETIP, TARGETPORT);
 		myThread.start();
 		
 	}
-
+	/**
+	 * Initializes the application variables related to the user interface, location manager, preference manager and the target's IP and port.
+	 * @param No parameters.
+	 * @return Doesn't return anything.
+	 * */
 	private void initialize() {
 		// TODO Auto-generated method stub
 		lat = (TextView) findViewById(R.id.tvLat);
 		lon = (TextView) findViewById(R.id.tvLong);
+		ip = (TextView) findViewById(R.id.tvIP);
+		port = (TextView) findViewById(R.id.tvPORT);
 		requestCoords = (Button) findViewById(R.id.bRequestCoords);
 		requestCoords.setOnClickListener(this);
 		
@@ -78,8 +82,14 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 		ourManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		SERVERPORT = Integer.parseInt(prefs.getString("serverPort", "0"));
-		SERVERIP = prefs.getString("serverIP", "0.0.0.0");
+		TARGETPORT = Integer.parseInt(prefs.getString("serverPort", "0"));
+		TARGETIP = prefs.getString("serverIP", "0.0.0.0");
+		ip.setText("IP: " + TARGETIP);
+		port.setText("Port: " + String.valueOf(TARGETPORT));
+		
+		timeUpdt = Integer.parseInt(prefs.getString("timeUpdt", "0"));
+		distUpdt = Integer.parseInt(prefs.getString("distUpdt", "0"));
+		ourManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeUpdt, distUpdt, this);
 	}
 	
 	@Override
@@ -108,24 +118,12 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 		return true;
 	}
 
-	/* Events for buttton press */
+	/* Events for button press */
 	@Override
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
-		// currentLoc = ourManager.getLastKnownLocation(LOCATION_SERVICE);
-		if (liveFeed == false){			
-			// prepare a message with GPS location data
-            Message messageToThread = new Message();
-            messageData = new Bundle();
-            messageToThread.what = 0;
-            messageData.putFloat("latitude", lati);
-            messageData.putFloat("longitude", longi);            
-            messageToThread.setData(messageData);
-
-
-            // sending message to myThread
-            myThread.getHandler().sendMessage(messageToThread);
-		}
+		myThread.setCoords(longi, lati);
+		
 	}
 
 	/* Operating Mode Options */
@@ -156,20 +154,7 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 		Log.d("CoordsMain", String.valueOf(longi)+":"+String.valueOf(lati));
 		
 		if (liveFeed == true) {	
-			//prefs = PreferenceManager.getDefaultSharedPreferences(this);
-			//SERVERPORT = Integer.parseInt(prefs.getString("serverPort", "0"));
-			//SERVERIP = prefs.getString("serverIp", "0.0.0.0");
-
-			// prepares a message with GPS location data
-            Message messageToThread = new Message();
-            messageData = new Bundle();
-            messageToThread.what = 0;
-            messageData.putFloat("latitude", lati);
-            messageData.putFloat("longitude", longi);
-            messageToThread.setData(messageData);
- 
-            // sending message to myThread
-            myThread.getHandler().sendMessage(messageToThread);
+			myThread.setCoords(longi, lati);
 		}
 	}
 
@@ -196,10 +181,19 @@ public class GPSLocFeed extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		super.onResume();
 		
-		//uses the time and distance from the preferences for the requestLocationUpdates method
+		//updates the variables from preferences
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		timeUpdt = Integer.parseInt(prefs.getString("timeUpdt", "0"));
-		distUpdt = Integer.parseInt(prefs.getString("distUpdt", "0"));		
+		distUpdt = Integer.parseInt(prefs.getString("distUpdt", "0"));
 		ourManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeUpdt, distUpdt, this);
+		
+		TARGETIP = prefs.getString("serverIP", "0.0.0.0");
+		TARGETPORT = Integer.parseInt(prefs.getString("serverPort", "0"));
+		ip.setText("IP: " + TARGETIP);
+		port.setText("Port: " + String.valueOf(TARGETPORT));
+		myThread.setAddr(TARGETIP, TARGETPORT);
+		
+		Log.d("Resume:IP", TARGETIP);
+		Log.d("Resume:PORT", String.valueOf(TARGETPORT));		
 	}
 }
